@@ -26,33 +26,47 @@ public:
 
 class LinkedList:Box{
 
-    Box* currentValue;
+    Box* startValue;
+    Box* endValue;
+
 
 public:
 
     LinkedList(int number)
     {   
-        currentValue = new Box(number);
+        startValue = new Box(number);
+        endValue = startValue;
     }
 
-    void insert(int number)
+    void insert_before(int number)
     {   
         Box* newValue = new Box(number);
 
-        (*newValue).next_value = currentValue;
+        (*newValue).next_value = startValue;
 
-        currentValue = newValue;
+        startValue = newValue;
 
+    }
+    
+    void insert_after(int number)
+    {
+        Box* newValue = new Box(number);
+
+        (*endValue).next_value = newValue;
+
+        endValue = newValue;
     }
 
     void print()
     {
         std::cout << "List contents are: ";
 
-        while( (currentValue) != nullptr)
+        Box* temp_place_holder = startValue;
+
+        while( (temp_place_holder) != nullptr)
         {
-            std::cout << (*currentValue).own_number_value << ", ";
-            currentValue = currentValue->next_value;
+            std::cout << (*temp_place_holder).own_number_value << ", ";
+            temp_place_holder = temp_place_holder->next_value;
         }
         std::cout << std::endl;
     }
@@ -66,11 +80,15 @@ int main()
 
     LinkedList ll(9);
 
-    ll.insert(14);
-    ll.insert(16);
-    ll.insert(19);
+    ll.insert_before(14);
+    ll.insert_before(16);
+    ll.insert_before(19);
 
     ll.print();
 
+    ll.insert_after(1);
+    ll.insert_after(2);
+
+    ll.print();
 
 }
