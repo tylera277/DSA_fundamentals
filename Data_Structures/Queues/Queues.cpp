@@ -1,5 +1,7 @@
 #include <iostream>
 #include <string>
+#include <memory>
+
 
 class Student{
     std::string name;
@@ -52,7 +54,7 @@ public:
         length_of_queue = 0;
     }
 
-    void Enqueue(std::string name, int age)
+    void Enqueue(const std::string name, const int age)
     {
         Student* new_student = new Student(name, age);
 
@@ -60,6 +62,15 @@ public:
         {
             start_of_queue = new_student;
             end_of_queue = new_student;
+
+        }
+        else if(length_of_queue == 1)
+        {
+            new_student->setNextStudentInQueue(end_of_queue);
+            end_of_queue = new_student;
+
+            // Attempting to link the start and end of queue together.
+            end_of_queue->setNextStudentInQueue(start_of_queue);
         }
         else
         {
@@ -69,18 +80,14 @@ public:
 
         length_of_queue++;
 
-        delete new_student;
+        std::cout << "Legth of queue: " << length_of_queue << std::endl;
+
     }
 
     void Dequeue()
     {
         std::cout << "Student being removed from queue is= " << end_of_queue->getName() << std::endl;
         start_of_queue = start_of_queue->getNextStudentInQueue();
-    }
-
-    std::string beep(std::string test)
-    {
-        return test;
     }
 
 
@@ -113,7 +120,8 @@ int main()
     Queue my_queue;
 
     my_queue.Enqueue("Jared", 12);
-    //my_queue.Enqueue("Tyler", 26);
+    my_queue.Enqueue("Tyler", 26);
+    my_queue.Enqueue("Jerome", 45);
 
     my_queue.print();
 
